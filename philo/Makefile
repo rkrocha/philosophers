@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/02/02 10:30:40 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/02/02 10:41:14 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,11 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(INCLUDES)
 	@ mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ $(IFLAGS)
 
-.PHONY: all
+debug:
+	$(CC) $(CFLAGS) $(CDEBUG) -o $(NAME) $(SRCS_DIR)/$(SRCS) $(LFLAGS) $(IFLAGS)
+	@ echo "Made $(value NAME) for debugging"
+
+.PHONY: all debug
 
 # **************************************************************************** #
 #                                   CLEAN                                      #
