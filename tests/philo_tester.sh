@@ -2,6 +2,5 @@
 
 source 'assert.sh'
 
-RUN=./philo
+RUN=../philo/philo
 
-$RUN
