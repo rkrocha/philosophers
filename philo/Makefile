@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/02/02 10:46:34 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/07 09:53:19 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,13 @@ INCLUDES_DIR	= ./includes
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
 CDEBUG			= -g -fsanitize=address
-LFLAGS			=
+LFLAGS			= -pthread
 IFLAGS			= -I$(INCLUDES_DIR)
 
 RM				= rm -f
 NORM			= norminette
 
-INCLUDES_FILES	= philo.h
+INCLUDES_FILES	= philo.h ft_bool.h
 INCLUDES		= $(addprefix $(INCLUDES_DIR)/, $(INCLUDES_FILES))
 
 SRCS			= philo.c
@@ -33,24 +33,28 @@ SRCS			= philo.c
 OBJS			= $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
 
 # **************************************************************************** #
-#                                   MAKE                                       #
+#                                   BUILD                                      #
 # **************************************************************************** #
-
-$(NAME): $(OBJS) $(INCLUDES)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LFLAGS) $(IFLAGS)
-	@ echo "Made $(value NAME)"
 
 all: $(NAME)
 
+$(NAME): $(OBJS) $(INCLUDES)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(IFLAGS) $(LFLAGS)
+	@ echo "Made $(value NAME)"
+
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(INCLUDES)
 	@ mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ $(IFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@ $(IFLAGS) $(LFLAGS)
 
-debug:
-	$(CC) $(CFLAGS) $(CDEBUG) -o $(NAME) $(SRCS_DIR)/$(SRCS) $(LFLAGS) $(IFLAGS)
+debug: $(OBJS) $(INCLUDES)
+	$(CC) $(CFLAGS) $(CDEBUG) -o $(NAME) $(OBJS) $(IFLAGS) $(LFLAGS)
+	@ make -s clean
 	@ echo "Made $(value NAME) for debugging"
 
-.PHONY: all debug
+test: debug
+	@ sh ../test.sh
+
+.PHONY: all debug test
 
 # **************************************************************************** #
 #                                   CLEAN                                      #

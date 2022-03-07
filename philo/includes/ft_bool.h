@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   ft_bool.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 10:16:30 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/07 09:47:44 by rkochhan         ###   ########.fr       */
+/*   Created: 2021/11/14 11:12:27 by rkochhan          #+#    #+#             */
+/*   Updated: 2021/11/15 15:54:06 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#ifndef FT_BOOL_H
+# define FT_BOOL_H
 
-int	main(int argc, const char **argv)
-{
-	printf("%s\n", "Hello, philosophers 😎");
-	(void)argc;
-	(void)argv;
-	return (0);
-}
+# define TRUE	(char)1
+# define FALSE	(char)0
+
+typedef char	t_bool;
+
+#endif
