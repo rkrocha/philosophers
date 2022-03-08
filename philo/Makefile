@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/07 18:20:23 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/08 11:33:49 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ debug: $(OBJS) $(INCLUDES)
 	@ make -s clean
 	@ echo "Made $(value NAME) for debugging"
 
-test: debug
+test: #debug
 	@ make -s -C ../tests
 	@ sh ../tests/philo_tester.sh
 
