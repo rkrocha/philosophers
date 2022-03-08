@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/07 09:53:19 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/07 18:20:23 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,12 @@ NORM			= norminette
 INCLUDES_FILES	= philo.h ft_bool.h
 INCLUDES		= $(addprefix $(INCLUDES_DIR)/, $(INCLUDES_FILES))
 
-SRCS			= philo.c
+SRCS			= philo.c \
+					parser.c \
+					ft_atoi.c \
+					ft_isspace.c \
+					ft_strchr.c \
+					ft_strignore.c
 
 OBJS			= $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
 
@@ -52,7 +57,8 @@ debug: $(OBJS) $(INCLUDES)
 	@ echo "Made $(value NAME) for debugging"
 
 test: debug
-	@ sh ../test.sh
+	@ make -s -C ../tests
+	@ sh ../tests/philo_tester.sh
 
 .PHONY: all debug test
 
