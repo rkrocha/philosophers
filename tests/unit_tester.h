@@ -2,6 +2,6 @@
 # define UNIT_TESTER_H
 
 # include "../philo/includes/philo.h"
-# include "greatest.h"
+# include "minunit.h"
 
 #endif
