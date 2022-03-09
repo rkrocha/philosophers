@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/09 11:53:08 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/09 12:01:03 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,18 +35,17 @@ OBJ				= $(SRC:.c=.o)
 #                                   BUILD                                      #
 # **************************************************************************** #
 
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(IFLAGS) $(LFLAGS)
+all: $(NAME)
 
 $(NAME): $(OBJ) $(INCLUDE)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(IFLAGS) $(LFLAGS)
 	@ echo "Made $(value NAME)"
 
-all: $(NAME)
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(IFLAGS) $(LFLAGS)
 
 debug:
-	$(CC) $(CFLAGS) $(CDEBUG) -o $(NAME) $(OBJ) $(IFLAGS) $(LFLAGS)
-	@ make -s clean
+	$(CC) $(CFLAGS) $(CDEBUG) -o $(NAME) $(SRC) $(IFLAGS) $(LFLAGS)
 	@ echo "Made $(value NAME) for debugging"
 
 test: #debug
