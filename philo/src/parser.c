@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:17:17 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/09 10:06:41 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/09 11:18:54 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	error_msg(const char *msg)
 
 static t_bool	is_valid_arg(const char *arg)
 {
-	if (ft_strignore(arg, DECIMAL_BASE) == NULL)
+	if (ft_strignore(arg, "0123456789") == NULL)
 		return (true);
 	return (false);
 }

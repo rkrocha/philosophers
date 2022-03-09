@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/09 09:47:08 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/09 11:18:38 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <sys/time.h>
 # include <unistd.h>
 # include "ft_bool.h"
-# include "ft_charsets.h"
 
 typedef struct s_philo
 {
