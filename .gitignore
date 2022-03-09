@@ -1,3 +1,3 @@
 .vscode/
 *.out
-tests/*_test
+tests/*_tester
