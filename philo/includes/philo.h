@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/07 18:20:19 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/09 09:47:08 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 	struct timeval	time_current;
 }	t_philo;
 
-int	parse_input(int argc, const char **argv, int input[5]);
+t_bool	parse_valid_input(int argc, const char **argv, int input[5]);
 
 /*
 ** libft, but without libft, because that makes sense:
