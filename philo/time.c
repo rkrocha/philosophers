@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 10:16:30 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/09 16:16:39 by rkochhan         ###   ########.fr       */
+/*   Created: 2022/03/09 15:25:35 by rkochhan          #+#    #+#             */
+/*   Updated: 2022/03/09 15:40:43 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, const char **argv)
+t_time	current_time(void)
 {
-	// t_philo	*table;
-	int		input[5];
+	struct timeval	time;
 
-	if (parse_valid_input(argc, argv, input) == false)
-		return (1);
-	// set_table
-	// spawn_philosophers
-	// start_routines
-	// cleanup
-	return (0);
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+t_time	time_diff(t_time start, t_time end)
+{
+	return (end - start);
 }

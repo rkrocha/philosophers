@@ -6,16 +6,12 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/09 11:18:38 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/09 16:26:14 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-
-# define STATUS_EATING		0
-# define STATUS_SLEEPING	1
-# define STATUS_THINKING	2
 
 # include <pthread.h>
 # include <stdio.h>
@@ -24,14 +20,12 @@
 # include <unistd.h>
 # include "ft_bool.h"
 
-typedef struct s_philo
-{
-	unsigned char	status;
-	struct timeval	time_safe;
-	struct timeval	time_current;
-}	t_philo;
+typedef long long t_time;
 
 t_bool	parse_valid_input(int argc, const char **argv, int input[5]);
+
+t_time	current_time(void);
+t_time	time_diff(t_time start, t_time end);
 
 /*
 ** libft, but without libft, because that makes sense:
