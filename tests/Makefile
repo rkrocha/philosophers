@@ -1,11 +1,14 @@
-CC	= gcc -Wall -Wextra -Werror -fsanitize=address -I../philo/includes/ -lrt -lm $@_test.c -o $@_test
+NAME	= unit_tester
+CC		= gcc
+INCLUDE	= -I../philo/includes/
+FLAGS	= -Wall -Wextra -Werror -fsanitize=address
+LFLAGS	= -lrt -lm
+RM		= /usr/bin/rm -f
 
-TEST= ./$@_test
+EXEC	= $(CC) $(FLAGS) $(INCLUDE) $(LFLAGS) $(NAME).c -o $(NAME) && ./$(NAME)
 
-EXEC= $(CC) && $(TEST)
-
-
-all: parser
-
-parser:
+all:
 	$(EXEC)
+
+clean:
+	$(RM) $(NAME)
