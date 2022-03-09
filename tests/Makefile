@@ -1,6 +1,6 @@
 NAME	= unit_tester
 CC		= gcc
-INCLUDE	= -I../philo/includes/
+INCLUDE	= -I../philo/
 FLAGS	= -Wall -Wextra -Werror -fsanitize=address
 LFLAGS	= -lrt -lm
 RM		= /usr/bin/rm -f

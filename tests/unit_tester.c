@@ -1,9 +1,9 @@
 #include "unit_tester.h"
-#include "../philo/src/parser.c"
-#include "../philo/src/ft_atoi.c"
-#include "../philo/src/ft_isspace.c"
-#include "../philo/src/ft_strchr.c"
-#include "../philo/src/ft_strignore.c"
+#include "../philo/parser.c"
+#include "../philo/ft_atoi.c"
+#include "../philo/ft_isspace.c"
+#include "../philo/ft_strchr.c"
+#include "../philo/ft_strignore.c"
 
 /*
 ** PARSER:
