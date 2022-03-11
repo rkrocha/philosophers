@@ -1,4 +1,5 @@
 #include "unit_tester.h"
+#include "mock_utils.c"
 #include "../philo/parser.c"
 #include "../philo/init.c"
 #include "../philo/ft_atoi.c"
@@ -129,12 +130,12 @@ MU_TEST(init_three_philos)
 	mu_assert_int_eq(sizeof(t_philo) * input[0], sizeof(*philos) * input[0]);
 	for (int i = 0; i < input[0]; i++)
 	{
-		mu_assert_int_eq(philos[i].id, i + 1);
-		mu_assert_int_eq(philos[i].status, 0);
-		mu_assert_int_eq(philos[i].time_to_die, input[1]);
-		mu_assert_int_eq(philos[i].time_to_eat, input[2]);
-		mu_assert_int_eq(philos[i].time_to_sleep, input[3]);
-		mu_assert_int_eq(philos[i].meals_eaten, 0);
+		mu_assert_int_eq(i + 1, philos[i].id);
+		mu_assert_int_eq(STATUS_THINKING, philos[i].status);
+		mu_assert_int_eq(input[1], philos[i].time_to_die);
+		mu_assert_int_eq(input[2], philos[i].time_to_eat);
+		mu_assert_int_eq(input[3], philos[i].time_to_sleep);
+		mu_assert_int_eq(0, philos[i].meals_eaten);
 	}
 	free(philos);
 }
@@ -147,15 +148,12 @@ MU_TEST(init_one_philo)
 	philos = init_philosophers(input);
 
 	mu_assert_int_eq(sizeof(t_philo) * input[0], sizeof(*philos) * input[0]);
-	for (int i = 0; i < input[0]; i++)
-	{
-		mu_assert_int_eq(philos[i].id, i + 1);
-		mu_assert_int_eq(philos[i].status, 0);
-		mu_assert_int_eq(philos[i].time_to_die, input[1]);
-		mu_assert_int_eq(philos[i].time_to_eat, input[2]);
-		mu_assert_int_eq(philos[i].time_to_sleep, input[3]);
-		mu_assert_int_eq(philos[i].meals_eaten, 0);
-	}
+	mu_assert_int_eq(1, philos[0].id);
+	mu_assert_int_eq(STATUS_THINKING, philos[0].status);
+	mu_assert_int_eq(input[1], philos[0].time_to_die);
+	mu_assert_int_eq(input[2], philos[0].time_to_eat);
+	mu_assert_int_eq(input[3], philos[0].time_to_sleep);
+	mu_assert_int_eq(0, philos[0].meals_eaten);
 	free(philos);
 }
 
