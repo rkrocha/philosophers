@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:44 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 10:53:00 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:47:46 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_philo	*init_philosophers(int input[5])
 		philos[i].time_to_die = input[1];
 		philos[i].time_to_eat = input[2];
 		philos[i].time_to_sleep = input[3];
-		philos[i].meals_eaten = 0;
 		i++;
 	}
 	return (philos);

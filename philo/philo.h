@@ -6,12 +6,17 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 11:24:04 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:47:35 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# define DEAD		-1
+# define EATING		0
+# define SLEEPING	1
+# define THINKING	2
 
 # include <pthread.h>
 # include <stdio.h>
@@ -26,6 +31,7 @@ typedef long long t_time;
 typedef struct s_philo
 {
 	int			id;
+	int			status;
 	int			time_to_die;
 	int			time_to_eat;
 	int			time_to_sleep;

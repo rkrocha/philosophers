@@ -130,6 +130,7 @@ MU_TEST(init_three_philos)
 	for (int i = 0; i < input[0]; i++)
 	{
 		mu_assert_int_eq(philos[i].id, i + 1);
+		mu_assert_int_eq(philos[i].status, 0);
 		mu_assert_int_eq(philos[i].time_to_die, input[1]);
 		mu_assert_int_eq(philos[i].time_to_eat, input[2]);
 		mu_assert_int_eq(philos[i].time_to_sleep, input[3]);
@@ -149,6 +150,7 @@ MU_TEST(init_one_philo)
 	for (int i = 0; i < input[0]; i++)
 	{
 		mu_assert_int_eq(philos[i].id, i + 1);
+		mu_assert_int_eq(philos[i].status, 0);
 		mu_assert_int_eq(philos[i].time_to_die, input[1]);
 		mu_assert_int_eq(philos[i].time_to_eat, input[2]);
 		mu_assert_int_eq(philos[i].time_to_sleep, input[3]);
