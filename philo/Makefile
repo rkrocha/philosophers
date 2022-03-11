@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/09 16:25:46 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/09 17:11:26 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,11 @@ NORM			= norminette
 
 SRC				= philo.c \
 					parser.c \
+					init.c \
 					time.c \
 					ft_atoi.c \
+					ft_bzero.c \
+					ft_calloc.c \
 					ft_isspace.c \
 					ft_strchr.c \
 					ft_strignore.c

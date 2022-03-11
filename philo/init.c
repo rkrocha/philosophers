@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 10:16:30 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 11:24:04 by rkochhan         ###   ########.fr       */
+/*   Created: 2022/03/09 16:27:44 by rkochhan          #+#    #+#             */
+/*   Updated: 2022/03/11 10:53:00 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, const char **argv)
+t_philo	*init_philosophers(int input[5])
 {
-	int		args[5];
 	t_philo	*philos;
+	int		i;
 
-	if (parse_validate_args(argc, argv, args) == false)
-		return (1);
-	// set_table
-	philos = init_philosophers(args);
-	// start_routines
-	// cleanup
-	return (0);
+	philos = (t_philo *)ft_calloc(input[0], sizeof(t_philo));
+	i = 0;
+	while (i < input[0])
+	{
+		philos[i].id = i + 1;
+		philos[i].time_to_die = input[1];
+		philos[i].time_to_eat = input[2];
+		philos[i].time_to_sleep = input[3];
+		philos[i].meals_eaten = 0;
+		i++;
+	}
+	return (philos);
 }

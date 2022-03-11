@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:17:17 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/09 11:18:54 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/11 11:24:40 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_bool	is_valid_arg(const char *arg)
 	return (false);
 }
 
-t_bool	parse_valid_input(int argc, const char **argv, int input[5])
+t_bool	parse_validate_args(int argc, const char **argv, int args[5])
 {
 	unsigned char	i;
 
@@ -36,12 +36,12 @@ t_bool	parse_valid_input(int argc, const char **argv, int input[5])
 	{
 		if (is_valid_arg(argv[i + 1]) == false)
 			return (error_msg("Args must be integers."));
-		input[i] = ft_atoi(argv[i + 1]);
+		args[i] = ft_atoi(argv[i + 1]);
 		i++;
 	}
-	if (input[0] == 0)
+	if (args[0] == 0)
 		return (error_msg("No philosophers defined."));
 	if (argc == 5)
-		input[i] = -1;
+		args[i] = -1;
 	return (true);
 }
