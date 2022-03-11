@@ -6,17 +6,11 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:17:17 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 11:24:40 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/11 17:10:03 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static int	error_msg(const char *msg)
-{
-	printf("%s\n", msg);
-	return (false);
-}
 
 static t_bool	is_valid_arg(const char *arg)
 {
