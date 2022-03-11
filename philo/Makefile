@@ -6,15 +6,15 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/11 16:56:17 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/11 17:28:50 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= philo
 
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
-CDEBUG			= -g -fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror -O3
+CDEBUG			= -Wall -Wextra -Werror -g -fsanitize=address
 INCLUDE			= philo.h ft_bool.h
 IFLAGS			= -I.
 LFLAGS			= -pthread
@@ -50,7 +50,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(IFLAGS) $(LFLAGS)
 
 debug:
-	$(CC) $(CFLAGS) $(CDEBUG) $(SRC) $(IFLAGS) $(LFLAGS) -o $(NAME)
+	$(CC) $(CDEBUG) $(SRC) $(IFLAGS) $(LFLAGS) -o $(NAME)
 	@ make -s clean
 	@ echo "Made $(value NAME) for debugging"
 
