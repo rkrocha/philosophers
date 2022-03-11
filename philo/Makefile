@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/09 17:11:26 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/11 16:56:17 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC				= philo.c \
 					parser.c \
 					init.c \
 					time.c \
+					utils.c \
 					ft_atoi.c \
 					ft_bzero.c \
 					ft_calloc.c \
@@ -39,17 +40,18 @@ OBJ				= $(SRC:.c=.o)
 #                                   BUILD                                      #
 # **************************************************************************** #
 
-all: $(NAME)
-
 $(NAME): $(OBJ) $(INCLUDE)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(IFLAGS) $(LFLAGS)
+	$(CC) $(CFLAGS) $(OBJ) $(IFLAGS) $(LFLAGS) -o $(NAME)
 	@ echo "Made $(value NAME)"
 
-.c.o:
+all: $(NAME)
+
+./%.o: ./%.c $(INCLUDE)
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(IFLAGS) $(LFLAGS)
 
 debug:
-	$(CC) $(CFLAGS) $(CDEBUG) -o $(NAME) $(SRC) $(IFLAGS) $(LFLAGS)
+	$(CC) $(CFLAGS) $(CDEBUG) $(SRC) $(IFLAGS) $(LFLAGS) -o $(NAME)
+	@ make -s clean
 	@ echo "Made $(value NAME) for debugging"
 
 test: #debug
