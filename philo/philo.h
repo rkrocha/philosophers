@@ -6,17 +6,23 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 11:47:35 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/11 17:10:27 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# define DEAD		-1
-# define EATING		0
-# define SLEEPING	1
-# define THINKING	2
+# define STATUS_DEAD		-1
+# define STATUS_EATING		0
+# define STATUS_SLEEPING	1
+# define STATUS_THINKING	2
+
+# define MSG_DEAD			"%6lld %3d died\n"
+# define MSG_FORK			"%6lld %3d has taken a fork\n"
+# define MSG_EATING			"%6lld %3d is eating\n"
+# define MSG_SLEEPING		"%6lld %3d is sleeping\n"
+# define MSG_THINKING		"%6lld %3d is thinking\n"
 
 # include <pthread.h>
 # include <stdio.h>
@@ -26,7 +32,7 @@
 # include <unistd.h>
 # include "ft_bool.h"
 
-typedef long long t_time;
+typedef long long	t_time;
 
 typedef struct s_philo
 {
@@ -36,6 +42,7 @@ typedef struct s_philo
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			meals_eaten;
+	t_time		last_meal;
 	t_time		origin;
 	pthread_t	thread;
 }	t_philo;
@@ -44,7 +51,11 @@ t_bool	parse_validate_args(int argc, const char **argv, int input[5]);
 
 t_philo	*init_philosophers(int input[5]);
 
+int		error_msg(const char *msg);
+void	log_status(t_philo *philo, const char *msg);
+
 t_time	current_time(void);
+t_time	time_left_to_live(t_philo *philo);
 t_time	time_diff(t_time start, t_time end);
 
 /*
