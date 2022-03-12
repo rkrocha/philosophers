@@ -6,7 +6,7 @@
 #    By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/02 10:12:55 by rkochhan          #+#    #+#              #
-#    Updated: 2022/03/11 17:28:50 by rkochhan         ###   ########.fr        #
+#    Updated: 2022/03/11 18:32:10 by rkochhan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,6 @@ debug:
 
 test: #debug
 	@ make -s -C ../tests
-	@ sh ../tests/philo_tester.sh
 
 .PHONY: all debug test
 

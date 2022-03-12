@@ -9,6 +9,7 @@ EXEC	= $(CC) $(FLAGS) $(INCLUDE) $(LFLAGS) $(NAME).c -o $(NAME) && ./$(NAME)
 
 all:
 	$(EXEC)
+	bash run_philo_tester.sh
 
 clean:
 	$(RM) $(NAME)
