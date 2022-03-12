@@ -28,14 +28,14 @@ fail=0
 optm=0
 pass=0
 
-run_test()
+test()
 {
-	$PHILO_RUN $@ > test.output
-	$TEST_RUN $@ && ((++pass)) && return
+	$PHILO_RUN $@ > philo.log
+	$TEST_RUN philo.log $@ && ((++pass)) && return
 	((++fail))
 }
 
-run_test "3 250 100 100"
+test "3 250 100 100"
 
 
 
