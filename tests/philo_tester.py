@@ -20,10 +20,17 @@ except FileNotFoundError:
     exit(f"File '{argv[1]}' not found!")
 
 
-# definitions of philosophers status
+# definitions of philosophers status and error msgs
 THINKING = 0
 EATING = 1
 SLEEPING = 2
+
+MSG_GRABBED_EATING = " grabbed a fork while eating!"
+MSG_GRABBED_MANY = " has {0} forks!"
+MSG_GRABBED_SLEEPING = " grabbed a fork while sleeping!"
+MSG_LATE_MEAL = "'s meal is too late! It should be dead."
+MSG_TIME_TRAVELLER = " is a time traveller! Its current event has a lower timestamp than its previous event."
+
 
 # tester_fail: tester compatibility issues with weirdly formatted philosophers lines
 # errors and warnings: philosopher errors and weird behaviors
@@ -65,45 +72,41 @@ class PhiloEval:
 
 
     def check_for_time_traveller(self, line, time_now):
-        pass
+        if self.time_of_last_event > time_now:
+            self.log_fail(line, MSG_TIME_TRAVELLER, "philo_error")
 
 
     def check_if_neighbors_also_have_two_forks(self):
         pass
 
 
-    def check_if_alive(self, line, time_now):
-        pass
+    def check_if_really_alive(self, line, time_now):
+        if time_now >= self.time_of_last_meal + TIME_TO_DIE + 10:
+            self.should_be_dead = True
+            self.log_fail(line, MSG_LATE_MEAL, "philo_error")
 
 
     def check_grabbed_fork(self, line, time_now):
-        if time_now > self.time_of_last_meal + TIME_TO_DIE:
-            self.should_be_dead = True
-            self.log_fail(line, "'s meal is too late! It should be dead.", "philo_error")
-
         if self.status == SLEEPING:
-            self.log_fail(line, " grabbed a fork while sleeping!", "philo_error")
+            self.log_fail(line, MSG_GRABBED_SLEEPING, "philo_error")
 
         if self.status == EATING:
-            self.log_fail(line, " grabbed a fork while eating!", "philo_error")
+            self.log_fail(line, MSG_GRABBED_EATING, "philo_error")
 
         self.forks_grabbed += 1
         if self.forks_grabbed > 2:
-            self.log_fail(line, f" has {self.forks_grabbed} forks!", "philo_error")
+            self.log_fail(line, MSG_GRABBED_MANY.format(self.forks_grabbed), "philo_error")
 
 
     def check_eating(self, line, time_now):
         if self.forks_grabbed < 2:
-            print(f"Line {line}: philosopher {self.id} is eating without two forks!")
-
-        if time_now > self.time_of_last_meal + TIME_TO_DIE:
-            self.should_be_dead = True
-            print(f"Line {line}: philosopher {self.id}'s meal is too late! It should be dead.")
-            self.forks_grabbed -= 2
+            self.log_fail(line, " is eating without two forks!", "philo_error")
+        self.time_of_last_meal = time_now
 
 
     def check_sleeping(self, line, time_now):
-        pass
+        self.forks_grabbed -= 2
+        self.all_forks_grabbed -= 2
 
 
     def check_thinking(self, line, time_now):
@@ -116,7 +119,8 @@ class PhiloEval:
 
     def check_event(self, line, time_now, description: str):
         self.check_for_time_traveller(line, time_now)
-        self.check_if_alive(line, time_now)
+        if (self.is_dead is False):
+            self.check_if_really_alive(line, time_now)
 
         if "fork" in description:
             self.check_grabbed_fork(line, time_now)
@@ -129,7 +133,7 @@ class PhiloEval:
         elif "died" in description:
             self.check_death(line, time_now)
         else:
-            self.log_fail(line, "")
+            self.log_fail(line, f": unknown event '{description}'!", "philo_error")
 
         self.time_of_last_event = time_now
 
@@ -139,8 +143,7 @@ class PhiloEval:
 # 'None' is attributed to index 0 for index alignment reasons.
 # This way the PhiloEval instance with id 1 is kept on index 1 of this list
 philos = [None]
-philo_range = range(1, N_PHILOS + 1)
-for id in philo_range:
+for id in range(1, N_PHILOS + 1):
     philos.append(PhiloEval(id))
 
 
@@ -156,7 +159,7 @@ for line, str in enumerate(philo_output, 1):
         print(f"Line {line}: philosopher has invalid id '{split_str[1]}'")
         continue
 
-    if id not in philo_range:
+    if id not in range(1, N_PHILOS + 1):
         print(f"Line {line}: philosopher has invalid id '{split_str[1]}'")
         continue
 
