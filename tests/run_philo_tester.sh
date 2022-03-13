@@ -30,12 +30,12 @@ pass=0
 
 test()
 {
-	$PHILO_RUN $@ > philo.log
-	$TEST_RUN philo.log $@ && ((++pass)) && return
+	$PHILO_RUN $@ > philo.output
+	$TEST_RUN philo.output $@ && ((++pass)) && return
 	((++fail))
 }
 
-test "3 250 100 100"
+test 3 250 100 100
 
 
 

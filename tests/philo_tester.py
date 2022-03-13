@@ -21,15 +21,25 @@ except FileNotFoundError:
 
 
 # definitions of philosophers status and error msgs
+UNINIT = -1
 THINKING = 0
 EATING = 1
 SLEEPING = 2
 
+MAX_DELAY = 10
+
+MSG_FORK_UNAVAILABLE = " grabbed a fork, but its neighbors were already holding two forks each!"
+MSG_GRABBED_MANY = " is holding more than two forks!"
 MSG_GRABBED_EATING = " grabbed a fork while eating!"
-MSG_GRABBED_MANY = " has {0} forks!"
 MSG_GRABBED_SLEEPING = " grabbed a fork while sleeping!"
-MSG_LATE_MEAL = "'s meal is too late! It should be dead."
+MSG_INVALID_EATING = " did not think before eating!"
+MSG_INVALID_SLEEP = " did not eat before sleeping!"
+MSG_INVALID_THINK = " did not sleep before thinking!"
+MSG_LATE_DEATH = "'s death took more than 10 ms to log! It should be dead already!"
+MSG_MANY_FORKS = " grabbed a fork that does not exist! The number of forks in use is larger than the number of philosophers."
+MSG_SINGLE_FORK = " is eating without two forks!"
 MSG_TIME_TRAVELLER = " is a time traveller! Its current event has a lower timestamp than its previous event."
+MSG_ZOMBIE = " is dead but is still moving! Zombie!"
 
 
 # tester_fail: tester compatibility issues with weirdly formatted philosophers lines
@@ -42,18 +52,19 @@ results = {
 
 
 class PhiloEval:
-    all_meals_eaten = 0
-    check_meal_count = True if N_MUST_EAT >= 0 else False
-    all_forks_grabbed = 0
+    all_meals_eaten = 0  # REMOVE?
+    check_meal_count = True if N_MUST_EAT >= 0 else False  # REMOVE?
+    all_forks_in_use = 0
 
 
     def __init__(self, id: int) -> None:
         self.id = id
-        self.status = 0
+        self.status = UNINIT
         self.time_of_last_event = 0
 
         self.forks_grabbed = 0
         self.time_of_last_meal = 0
+        self.meals_eaten = 0
 
         self.is_dead = False
         self.should_be_dead = False
@@ -71,19 +82,37 @@ class PhiloEval:
             print(f"Line {line}: philosopher {self.id}{msg}")
 
 
-    def check_for_time_traveller(self, line, time_now):
+    def count_forks_in_use(self, line):
+        if self.all_forks_in_use > N_PHILOS:
+            self.log_fail(line, MSG_MANY_FORKS, "philo_error")
+
+
+    def check_if_time_traveller(self, line, time_now):
         if self.time_of_last_event > time_now:
             self.log_fail(line, MSG_TIME_TRAVELLER, "philo_error")
 
 
-    def check_if_neighbors_also_have_two_forks(self):
-        pass
+    def check_if_neighbors_also_have_two_forks_each(self, line):
+        if N_PHILOS == 1:
+            return
+
+        neighbors = []
+        neighbors.append(N_PHILOS if self.id == 1 else self.id - 1)
+        if len(philos) > 3:
+            neighbors.append(1 if self.id == N_PHILOS else self.id + 1)
+
+        forks_used_by_neighbors = 0
+        for neighbor in neighbors:
+            forks_used_by_neighbors += philos[neighbor].forks_grabbed
+
+        if forks_used_by_neighbors >= len(neighbors) * 2:
+            self.log_fail(line, MSG_FORK_UNAVAILABLE, "philo_error")
 
 
     def check_if_really_alive(self, line, time_now):
-        if time_now >= self.time_of_last_meal + TIME_TO_DIE + 10:
+        if time_now >= self.time_of_last_meal + TIME_TO_DIE:
             self.should_be_dead = True
-            self.log_fail(line, MSG_LATE_MEAL, "philo_error")
+            self.expected_time_of_death = self.time_of_last_meal + TIME_TO_DIE
 
 
     def check_grabbed_fork(self, line, time_now):
@@ -94,33 +123,55 @@ class PhiloEval:
             self.log_fail(line, MSG_GRABBED_EATING, "philo_error")
 
         self.forks_grabbed += 1
+        self.all_forks_in_use += 1
+        self.check_if_neighbors_also_have_two_forks_each(line)
+        self.count_forks_in_use(line)
         if self.forks_grabbed > 2:
-            self.log_fail(line, MSG_GRABBED_MANY.format(self.forks_grabbed), "philo_error")
+            self.log_fail(line, MSG_GRABBED_MANY, "philo_error")
 
 
     def check_eating(self, line, time_now):
+        if self.status not in [UNINIT, THINKING]:
+            self.log_fail(line, MSG_INVALID_EATING, "philo_error")
         if self.forks_grabbed < 2:
-            self.log_fail(line, " is eating without two forks!", "philo_error")
+            self.log_fail(line, MSG_SINGLE_FORK, "philo_error")
         self.time_of_last_meal = time_now
+        self.status = EATING
 
 
     def check_sleeping(self, line, time_now):
+        if self.status not in [UNINIT, EATING]:
+            self.log_fail(line, MSG_INVALID_SLEEP, "philo_error")
+        self.meals_eaten += 1
         self.forks_grabbed -= 2
-        self.all_forks_grabbed -= 2
+        self.all_forks_in_use -= 2
+        self.status = SLEEPING
 
 
     def check_thinking(self, line, time_now):
-        pass
+        if self.status not in [UNINIT, SLEEPING]:
+            self.log_fail(line, MSG_INVALID_THINK, "philo_error")
+        self.status = THINKING
 
 
-    def check_death(line, time_now):
-        pass
+    def check_death(self, line, time_now):
+        self.is_dead = True
+        self.actual_time_of_death = time_now
 
 
     def check_event(self, line, time_now, description: str):
-        self.check_for_time_traveller(line, time_now)
-        if (self.is_dead is False):
+        if self.is_dead:
+            self.log_fail(line, MSG_ZOMBIE, "philo_error")
+            return
+
+        if self.should_be_dead is False:
             self.check_if_really_alive(line, time_now)
+
+        if self.should_be_dead and time_now > self.expected_time_of_death + MAX_DELAY:
+            self.log_fail(line, MSG_LATE_DEATH, "philo_error")
+            return
+
+        self.check_if_time_traveller(line, time_now)
 
         if "fork" in description:
             self.check_grabbed_fork(line, time_now)
@@ -133,7 +184,7 @@ class PhiloEval:
         elif "died" in description:
             self.check_death(line, time_now)
         else:
-            self.log_fail(line, f": unknown event '{description}'!", "philo_error")
+            self.log_fail(line, f": unknown event '{description}'!", "philo_warn")
 
         self.time_of_last_event = time_now
 
@@ -163,7 +214,7 @@ for line, str in enumerate(philo_output, 1):
         print(f"Line {line}: philosopher has invalid id '{split_str[1]}'")
         continue
 
-    philos[id].check_event(line, split_str[0], split_str[2:])
+    philos[id].check_event(line, int(split_str[0]), split_str[2:])
 
 
 exit(1 if results["philo_error"] else 2 if results["philo_warn"] else 0)
