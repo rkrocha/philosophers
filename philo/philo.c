@@ -6,11 +6,17 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:30 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 16:33:36 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/14 10:52:43 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	grab_forks(t_philo *self)
+{
+	log_status(self, MSG_FORK);
+	log_status(self, MSG_FORK);
+}
 
 int	subroutine_eat(t_philo *self)
 {
@@ -60,6 +66,7 @@ int	subroutine_think(t_philo *self)
 	thought_duration = time_left_to_live(self) - 10;
 	log_status(self, MSG_THINKING);
 	usleep(thought_duration * 1000);
+	grab_forks(self);
 	return (STATUS_EATING);
 }
 
