@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 15:17:17 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 17:10:03 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/16 22:02:36 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_bool	is_valid_arg(const char *arg)
 	return (false);
 }
 
-t_bool	parse_validate_args(int argc, const char **argv, int args[5])
+t_bool	parse_args(int argc, const char **argv, int args[5])
 {
 	unsigned char	i;
 

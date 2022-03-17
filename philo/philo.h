@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 17:10:27 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/16 22:02:36 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ typedef struct s_philo
 	pthread_t	thread;
 }	t_philo;
 
-t_bool	parse_validate_args(int argc, const char **argv, int input[5]);
+t_bool	parse_args(int argc, const char **argv, int input[5]);
 
 t_philo	*init_philosophers(int input[5]);
 
-int		error_msg(const char *msg);
+t_bool	error_msg(const char *msg);
 void	log_status(t_philo *philo, const char *msg);
 
 t_time	current_time(void);

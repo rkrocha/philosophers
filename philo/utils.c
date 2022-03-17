@@ -6,13 +6,13 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 14:36:56 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 17:10:12 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/15 19:23:41 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	error_msg(const char *msg)
+t_bool	error_msg(const char *msg)
 {
 	printf("%s\n", msg);
 	return (false);

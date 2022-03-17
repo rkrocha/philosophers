@@ -1,6 +1,6 @@
 #include "unit_tester.h"
 
-int		error_msg(const char *msg)
+t_bool	error_msg(const char *msg)
 {
 	(void)msg;
 	return (false);

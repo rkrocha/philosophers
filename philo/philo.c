@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:30 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/14 10:52:43 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/03/16 22:02:36 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ int	main(int argc, const char **argv)
 	int		args[5];
 	t_philo	*philos;
 
-	if (parse_validate_args(argc, argv, args) == false)
+	if (parse_args(argc, argv, args) == false)
 		return (1);
-	// set_table
+	// init_forks
 	philos = init_philosophers(args);
 	start_routines(philos, args);
 	// cleanup
