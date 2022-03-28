@@ -1,4 +1,5 @@
-#!/bin/python3
+#!/usr/bin/python3
+import argparse  # TODO: check it out
 from sys import argv
 
 
@@ -9,6 +10,8 @@ EVENT_EATING = "eating"
 EVENT_SLEEPING = "sleeping"
 EVENT_THINKING = "thinking"
 EVENT_DEAD = "died"
+
+MAX_DELAY = 10
 
 
 # get args from terminal
@@ -35,8 +38,6 @@ THINKING = 0
 EATING = 1
 SLEEPING = 2
 
-MAX_DELAY = 10
-
 MSG_FORK_UNAVAILABLE = " grabbed a fork, but its neighbors were already holding two forks each!"
 MSG_GRABBED_MANY = " is holding more than two forks!"
 MSG_GRABBED_EATING = " grabbed a fork while eating!"
@@ -45,24 +46,26 @@ MSG_INVALID_EATING = " did not think before eating!"
 MSG_INVALID_SLEEP = " did not eat before sleeping!"
 MSG_INVALID_THINK = " did not sleep before thinking!"
 MSG_LATE_DEATH = "'s death took more than 10 ms to log! It should be dead already!"
+MSG_EARLY_EVENT = " spent too little time in its previous event!"
+MSG_LATE_EVENT = " spent too much time in its previous event!"
 MSG_MANY_FORKS = " grabbed a fork that does not exist! The number of forks in use is larger than the number of philosophers."
 MSG_SINGLE_FORK = " is eating without two forks!"
 MSG_TIME_TRAVELLER = " is a time traveller! Its current event has a lower timestamp than its previous event."
 MSG_ZOMBIE = " is dead but is still moving! Zombie!"
 
 
-# tester_fail: tester compatibility issues with weirdly formatted philosophers lines
+# tester_error: tester compatibility issues with weirdly formatted philosophers lines
 # errors and warnings: philosopher errors and weird behaviors
 results = {
-    "tester_fail": 0,
+    "tester_error": 0,
     "philo_error": 0,
     "philo_warn": 0,
 }
 
 
 class PhiloEval:
-    all_meals_eaten = 0  # REMOVE?
-    check_meal_count = True if N_MUST_EAT >= 0 else False  # REMOVE?
+    all_meals_eaten = 0  # TODO REMOVE?
+    check_meal_count = True if N_MUST_EAT >= 0 else False  # TODO REMOVE?
     all_forks_in_use = 0
 
 
@@ -96,14 +99,24 @@ class PhiloEval:
             self.log_fail(line, MSG_TIME_TRAVELLER, "philo_error")
 
 
+    def check_time_spent_in_prev_event(self, line, event_duration, time_now):
+        if self.status == UNDEFINED:
+            return
+        time_spent = time_now - self.time_of_last_event
+        if time_spent >= event_duration + MAX_DELAY:
+            self.log_fail(line, MSG_LATE_EVENT, "philo_error")
+        if time_spent < event_duration:
+            self.log_fail(line, MSG_EARLY_EVENT, "philo_error")
+
+
     def check_if_neighbors_also_have_two_forks_each(self, line):
         if N_PHILOS == 1:
             return
 
         neighbors = []
-        neighbors.append(N_PHILOS if self.id == 1 else self.id - 1)
+        neighbors.append(self.id - 1 if self.id != 1 else N_PHILOS)
         if len(philos) > 3:
-            neighbors.append(1 if self.id == N_PHILOS else self.id + 1)
+            neighbors.append(self.id + 1 if self.id != N_PHILOS else 1)
 
         forks_used_by_neighbors = 0
         for neighbor in neighbors:
@@ -138,7 +151,7 @@ class PhiloEval:
 
 
     def check_eating(self, line, time_now):
-        if self.status not in [UNDEFINED, THINKING]:
+        if self.status not in [THINKING, UNDEFINED]:
             self.log_fail(line, MSG_INVALID_EATING, "philo_error")
         if self.forks_grabbed < 2:
             self.log_fail(line, MSG_SINGLE_FORK, "philo_error")
@@ -147,17 +160,19 @@ class PhiloEval:
 
 
     def check_sleeping(self, line, time_now):
-        if self.status not in [UNDEFINED, EATING]:
+        if self.status not in [EATING, UNDEFINED]:
             self.log_fail(line, MSG_INVALID_SLEEP, "philo_error")
+        self.check_time_spent_in_prev_event(line, TIME_TO_EAT, time_now)
         self.meals_eaten += 1
-        self.forks_grabbed -= 2
-        self.all_forks_in_use -= 2
+        self.all_forks_in_use -= self.forks_grabbed
+        self.forks_grabbed = 0
         self.status = SLEEPING
 
 
     def check_thinking(self, line, time_now):
-        if self.status not in [UNDEFINED, SLEEPING]:
+        if self.status not in [SLEEPING, UNDEFINED]:
             self.log_fail(line, MSG_INVALID_THINK, "philo_error")
+        self.check_time_spent_in_prev_event(line, TIME_TO_SLEEP, time_now)
         self.status = THINKING
 
 
@@ -212,7 +227,7 @@ for line, str in enumerate(philo_output, 1):
     try:
         id = int(split_str[1])
     except ValueError:
-        results["tester_fail"] += 1
+        results["tester_error"] += 1
         print(f"Line {line}: philosopher has invalid id '{split_str[1]}'")
         continue
 
