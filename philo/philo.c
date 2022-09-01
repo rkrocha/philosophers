@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:30 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/16 22:02:36 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/08/31 21:47:16 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	*philo_routine(void *this_philo)
 	static int (*const	routine[3])(t_philo *self) = {
 		subroutine_eat, subroutine_sleep, subroutine_think};
 
-	self = (t_philo *)this_philo;
+	self = this_philo;
 	self->last_meal = self->origin;
 	while (self->status != STATUS_DEAD)
 		self->status = routine[self->status](self);
@@ -94,29 +94,29 @@ static void	start_routines(t_philo *philos, int args[5])
 	while (i < args[0])
 	{
 		philos[i].origin = origin;
-		pthread_create(&philos[i].thread, NULL, &philo_routine, &philos[i]); // error
+		pthread_create(&philos[i].thread, NULL, &philo_routine, &philos[i]);
 		i++;
 	}
 	i = 0;
 	while (i < args[0])
 	{
-		pthread_detach(philos[i].thread); // error condition
+		pthread_detach(philos[i].thread);
 		i++;
 	}
-	usleep(3 * 1000 * 1000);
+	usleep(3 * 1000 * 1000); ///// remove
 	return ;
 }
 
 int	main(int argc, const char **argv)
 {
-	int		args[5];
+	int		input_args[5];
 	t_philo	*philos;
 
-	if (parse_args(argc, argv, args) == false)
+	if (parse_input(argc, argv, input_args) == false)
 		return (1);
 	// init_forks
-	philos = init_philosophers(args);
-	start_routines(philos, args);
+	philos = init_philosophers(input_args);
+	start_routines(philos, input_args);
 	// cleanup
 	free(philos);
 	return (0);

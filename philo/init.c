@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:44 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/11 16:36:34 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/08/31 22:11:42 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_philo	*init_philosophers(int input[5])
 	t_philo	*philos;
 	int		i;
 
-	philos = (t_philo *)ft_calloc(input[0], sizeof(t_philo));
+	philos = (t_philo *)ft_calloc(input[0], sizeof(t_philo)); ///////  use malloc
 	i = 0;
 	while (i < input[0])
 	{

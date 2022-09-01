@@ -6,7 +6,7 @@
 /*   By: rkochhan <rkochhan@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:16:27 by rkochhan          #+#    #+#             */
-/*   Updated: 2022/03/16 22:02:36 by rkochhan         ###   ########.fr       */
+/*   Updated: 2022/08/31 21:25:20 by rkochhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 # define STATUS_SLEEPING	1
 # define STATUS_THINKING	2
 
-# define MSG_DEAD			"%6lld %3d died\n"
-# define MSG_FORK			"%6lld %3d has taken a fork\n"
-# define MSG_EATING			"%6lld %3d is eating\n"
-# define MSG_SLEEPING		"%6lld %3d is sleeping\n"
-# define MSG_THINKING		"%6lld %3d is thinking\n"
+# define MSG_DEAD			"%6ld %3d died\n"
+# define MSG_FORK			"%6ld %3d has taken a fork\n"
+# define MSG_EATING			"%6ld %3d is eating\n"
+# define MSG_SLEEPING		"%6ld %3d is sleeping\n"
+# define MSG_THINKING		"%6ld %3d is thinking\n"
 
 # include <pthread.h>
 # include <stdio.h>
@@ -32,7 +32,7 @@
 # include <unistd.h>
 # include "ft_bool.h"
 
-typedef long long	t_time;
+typedef long	t_time;
 
 typedef struct s_philo
 {
@@ -47,7 +47,7 @@ typedef struct s_philo
 	pthread_t	thread;
 }	t_philo;
 
-t_bool	parse_args(int argc, const char **argv, int input[5]);
+t_bool	parse_input(int argc, const char **argv, int input_args[5]);
 
 t_philo	*init_philosophers(int input[5]);
 
@@ -63,7 +63,7 @@ t_time	time_diff(t_time start, t_time end);
 */
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t count, size_t size);
+void	*ft_calloc(size_t count, size_t size); ///////////////////////    size_t?
 int		ft_isspace(int c);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strignore(const char *str, const char *set);
